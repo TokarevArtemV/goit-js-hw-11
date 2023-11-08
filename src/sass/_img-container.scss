@@ -1,7 +1,8 @@
 .gallery-item {
+  padding: 10px;
   display: flex;
-
   flex-wrap: wrap;
+  justify-content: center;
   height: auto;
   gap: 0.96vw;
 }
@@ -10,11 +11,12 @@
   justify-content: space-between;
   flex-direction: column;
   height: 250px;
-  min-width: 240px;
-  width: 24vw;
-  border: 3px solid rgba(0, 0, 0, 0.08);
+  min-width: 260px;
+  width: 23vw;
+  box-shadow: 5px 5px 19px -6px rgba(34, 60, 80, 0.64);
   border-radius: 10px;
   overflow: hidden;
+  padding: 3px;
 }
 .gallery__link {
   height: 200px;
@@ -25,6 +27,7 @@
   width: 100%;
   object-position: center;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .info {

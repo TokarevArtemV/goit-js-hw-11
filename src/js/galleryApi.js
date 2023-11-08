@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { loadOn } from './loadState';
 import { errorFn } from './notifycation';
-// axios.defaults.headers.common['key'] = '40453839-bf63bb7ffb05993fc166c6375';
 
-export class ImageApi {
+export class GetImage {
   static #API_KEY = '40453839-bf63bb7ffb05993fc166c6375';
 
   constructor() {
@@ -15,9 +14,9 @@ export class ImageApi {
     this.endPoint = '/api/';
   }
 
-  getImages() {
+  async getImages() {
     const PARAMS = new URLSearchParams({
-      key: ImageApi.#API_KEY,
+      key: GetImage.#API_KEY,
       q: this.query,
       image_type: 'photo',
       orientation: 'horizontal',
@@ -27,13 +26,13 @@ export class ImageApi {
     });
     const url = this.baseUrl + this.endPoint + '?' + PARAMS;
 
-    return axios
-      .get(url)
-      .then(response => {
-        if (response.status === 200) return response;
-        return Promise.reject(response.status);
-      })
-      .catch(errorFn)
-      .finally(loadOn());
+    try {
+      const response = await axios.get(url);
+      if (response.status === 200 && response.hits !== []) return response;
+      return Promise.reject(response.status);
+    } catch (error) {
+      errorFn;
+    }
+    loadOn();
   }
 }

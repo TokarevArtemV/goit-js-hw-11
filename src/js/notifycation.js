@@ -1,7 +1,6 @@
 import { Notify } from 'notiflix';
 
 export function errorFn(error) {
-  console.log(error);
   Notify.failure(error + ' Please try to reload page later', options.notiflix);
 }
 
