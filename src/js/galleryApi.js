@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { loadOn } from './loadState';
 import { errorFn } from './notifycation';
 
 export class GetImage {
@@ -31,8 +30,7 @@ export class GetImage {
       if (response.status === 200 && response.hits !== []) return response;
       return Promise.reject(response.status);
     } catch (error) {
-      errorFn;
+      errorFn(error.message);
     }
-    loadOn();
   }
 }
