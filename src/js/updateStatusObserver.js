@@ -3,7 +3,7 @@ import { notifyStr } from './notifycation';
 const _ = require('lodash');
 
 export function updateStatusObserver(page, totalPages, observer) {
-  document.addEventListener('scroll', _.throttle(endPage, 1000));
+  document.addEventListener('scroll', _.throttle(endPage, 500));
 
   const isLastPage = page >= totalPages;
 
