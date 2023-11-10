@@ -28,6 +28,7 @@ export async function printImage(evt) {
   try {
     evt.currentTarget.elements.searchQuery.value = query;
     const data = await getImage.searchImage(query);
+    if (!data) return
     refs.imgDivEl.innerHTML = '';
     printGallery(data);
     observer.observe(refs.buttonLoadMoreEl);
