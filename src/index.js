@@ -1,9 +1,8 @@
 import { refs } from './js/refs';
-import { searchImage, loadMoreImages } from './js/searchImage';
-import { loadOn } from './js/loadState';
+import { printImage, loadMoreImages } from './js/searchImage';
 
 
-refs.formEl.addEventListener('submit', searchImage);
+refs.formEl.addEventListener('submit', printImage);
 refs.buttonLoadMoreEl.addEventListener('click', loadMoreImages);
 
 

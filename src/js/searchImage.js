@@ -11,62 +11,41 @@ const getImage = new GetImage();
 const lightbox = new SimpleLightbox('.gallery__link', {
   captionDelay: 250,
 });
-const observer = new IntersectionObserver(loadMoreImages, {
+const observer = new IntersectionObserver(printMoreImages, {
   rootMargin: '500px',
   threshold: 0,
 });
 
-export async function searchImage(evt) {
+export async function printImage(evt) {
   evt.preventDefault();
-
-  const query = evt.currentTarget.elements.searchQuery.value
-    .replace(/ +/g, ' ')
-    .trim();
-  if (!query) return;
   loadOn();
-  getImage.query = query;
-  refs.imgDivEl.innerHTML = '';
-  getImage.page = 1;
-
   try {
-    const {
-      data,
-      data: { totalHits },
-    } = await getImage.getImages();
-
-    if (totalHits === 0) {
-      notifyStr(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-      loadOff();
-      return;
-    }
-
+    const data = await getImage.searchImage(
+      evt.currentTarget.elements.searchQuery.value
+    );
+    refs.imgDivEl.innerHTML = '';
     printGallery(data);
-
-    getImage.totalPages = Math.ceil(totalHits / getImage.perPage);
     observer.observe(refs.buttonLoadMoreEl);
     lightbox.refresh();
     loadOff();
-    notifyStr(`Hooray! We found ${totalHits} images.`);
+    notifyStr(`Hooray! We found ${data.totalHits} images.`);
   } catch (error) {
+    errorFn(error.message);
     loadOff();
-    errorFn;
   }
 }
 
-export async function loadMoreImages([{ isIntersecting }]) {
+export async function printMoreImages([{ isIntersecting }]) {
   if (!isIntersecting) return;
-  getImage.page++;
-  updateStatusObserver(getImage.page, getImage.totalPages, observer);
   loadOn();
   try {
-    const { data } = await getImage.getImages();
+    const data = await getImage.loadMoreImages();
     printGallery(data);
     lightbox.refresh();
     loadOff();
+    updateStatusObserver(getImage.page, getImage.totalPages, observer);
   } catch (error) {
-    loadOff();
     errorFn(error.message);
+    loadOff();
   }
 }
