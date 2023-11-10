@@ -50,6 +50,15 @@ export async function printMoreImages([{ isIntersecting }]) {
     lightbox.refresh();
     loadOff();
     updateStatusObserver(getImage.page, getImage.totalPages, observer);
+    
+    const { height: cardHeight } = document
+      .querySelector('.gallery__link')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 4,
+      behavior: 'smooth',
+    });
   } catch (error) {
     errorFn(error.message);
     loadOff();
