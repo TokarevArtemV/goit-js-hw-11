@@ -18,11 +18,16 @@ const observer = new IntersectionObserver(printMoreImages, {
 
 export async function printImage(evt) {
   evt.preventDefault();
+
+  const query = evt.currentTarget.elements.searchQuery.value
+    .replace(/ +/g, ' ')
+    .trim();
+
+  if (!query) return;
   loadOn();
   try {
-    const data = await getImage.searchImage(
-      evt.currentTarget.elements.searchQuery.value
-    );
+    evt.currentTarget.elements.searchQuery.value = query;
+    const data = await getImage.searchImage(query);
     refs.imgDivEl.innerHTML = '';
     printGallery(data);
     observer.observe(refs.buttonLoadMoreEl);
